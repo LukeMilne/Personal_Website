@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+            --accent-color: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .edit-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .edit-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .save-button {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            display: none;
+            transition: background-color 0.3s;
+        }
+        
+        .save-button:hover {
+            background-color: #27ae60;
+        }
+        
+        .cancel-button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            display: none;
+            transition: background-color 0.3s;
+        }
+        
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+        
+        .header-content {
+            margin-top: 1rem;
+        }
+        
+        .header-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-content h2 {
+            font-size: 1.5rem;
+            font-weight: normal;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .contact-links a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .contact-links a:hover {
+            text-decoration: underline;
+        }
+        
+        section {
+            padding: 2rem 0;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .about-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .editable {
+            position: relative;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .editable:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .editable-active {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .add-skill {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px dashed var(--dark-color);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .project-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-image {
+            height: 200px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-title {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-description {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .project-tag {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .project-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .project-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .add-project {
+            height: 200px;
+            background-color: #f9f9f9;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-project:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .add-project-text {
+            font-size: 1.2rem;
+            color: #999;
+            text-align: center;
+        }
+        
+        .experience-item {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .experience-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+        
+        .experience-company {
+            font-weight: bold;
+        }
+        
+        .experience-period {
+            color: #666;
+        }
+        
+        .education-item {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .education-degree {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+        
+        .education-institution {
+            font-weight: bold;
+        }
+        
+        .education-period {
+            color: #666;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-text {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content h1 {
+                font-size: 2rem;
+            }
+            
+            .header-content h2 {
+                font-size: 1.2rem;
+            }
+            
+            .experience-header, .education-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        .color-picker {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .color-option {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            display: inline-block;
+            border: 2px solid transparent;
+        }
+        
+        .color-option.active {
+            border-color: #333;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close-modal {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .upload-container {
+            margin-bottom: 15px;
+        }
+        
+        .upload-button {
+            background-color: var(--light-color);
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .upload-button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .export-button {
+            background-color: var(--dark-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .export-button:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-image" id="profile-image">
+                    <img src="C:\Users\PC\Pictures\Camera Roll\dp.jpg" alt="Profile Picture" id="profile-img">
+                </div>
+            </div>
+            <div class="header-content">
+                <h1 class="editable" data-edit="header-name">Luke Milne</h1>
+                <h2 class="editable" data-edit="header-title">Cyber Security Student</h2>
+                <div class="contact-links">
+                    <a href="#" class="editable" data-edit="email">
+                        <span class="icon">✉️</span> milne.luke08@gmail.com
+                    </a>
+                    <a href="#" class="editable" data-edit="phone">
+                        <span class="icon">📱</span> 0449 023 522
+                    </a>
+                    <a href="#" class="editable" data-edit="location">
+                        <span class="icon">📍</span> Perth, WA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <p class="editable" data-edit="about-me">
+                    I am a motivated and detail-oriented Cybersecurity student at the University of Western Australia (UWA) with foundational knowledge in SQL, Python, Object-Oriented Programming (OOP), and defensive cybersecurity practices. Passionate about securing systems, identifying vulnerabilities, and implementing security best practices. Seeking internships or entry-level opportunities to apply technical skills in a real-world cybersecurity environment.
+                </p>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Skills</h3>
+                <div class="skill-tags">
+                    <div class="skill-tag">HTML/CSS</div>
+                    <div class="skill-tag">Python</div>
+                    <div class="skill-tag">SQL</div>
+                    <div class="skill-tag">VMware</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+
+                <div class="add-project" id="add-project">
+                    <div class="add-project-text">
+                        <span style="font-size: 2rem; display: block;">+</span>
+                        Add New Project
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title">Experience</h2>
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <h3 class="experience-title editable" data-edit="exp-1-title">Tennis Coaching</h3>
+                        <div class="experience-company editable" data-edit="exp-1-company">Instyle Tennis Management</div>
+                    </div>
+                    <div class="experience-period editable" data-edit="exp-1-period">Jan 2023 - Present</div>
+                </div>
+                <div class="experience-description editable" data-edit="exp-1-description">
+                    <ul>
+                        <li>Created indepth lessons plans for people of all ages</li>
+                        <li>Managed Lessons payments and scheduling</li>
+                        <li>Communicated effective technique</li>
+                        <li>Created a positive social environment for learning to take place</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="section-title">Education</h2>
+            <div class="education-item">
+                <div class="education-header">
+                    <div>
+                        <h3 class="education-degree editable" data-edit="edu-1-degree">B.S in Cyber Security</h3>
+                        <div class="education-institution editable" data-edit="edu-1-institution">University of Western Australia</div>
+                    </div>
+                    <div class="education-period editable" data-edit="edu-1-period">2022- current</div>
+                </div>
+                <div class="education-description editable" data-edit="edu-1-description">
+                    <p>Relevant coursework: Cybersecurity Fundamentals, Network Security, Secure Coding, Database Systems</p>
+                </div>
+            </div>
+            <div class="education-item">
+                <div class="education-header">
+                    <div>
+                        <h3 class="eduction edu-1-degree editable" data-edit="edu-1-degree">Bachelors Pass</h3> 
+                        <div class="education-institution editable" data-edit="edu-1-institution">Selborne College</div>            
+                    </div>
+                    <div class="edu-1-period editable" data-edit="edu-1-period">2017-2021</div>
+                </div>
+                <div class="edu-1-description editable" data-edit="edu-1-description">
+                    <p>Subjects: English, Afrikaans, Engineering Graphics and Design, IT, Physical Sciences, Life Orientation</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-text editable" data-edit="footer-text">
+                I'm currently open for freelance opportunities and interesting projects. Feel free to reach out if you'd like to discuss how we can work together!
+            </div>
+            <p>&copy; <span class="current-year">2025</span> - All Rights Reserved</p>
+        </div>
+    </footer>
+
+
+    <!-- Modal for adding a new project -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Add New Project</h2>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectTags">Technologies (comma separated)</label>
+                    <input type="text" id="projectTags" placeholder="React, Node.js, MongoDB">
+                </div>
+                <div class="form-group">
+                    <label for="projectDemo">Demo URL</label>
+                    <input type="url" id="projectDemo" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label for="projectCode">Code URL</label>
+                    <input type="url" id="projectCode" placeholder="https://github.com/...">
+                </div>
+                <div class="upload-container">
+                    <label>Project Image</label>
+                    <div class="upload-button" id="projectImageUpload">Choose Image</div>
+                    <span id="selectedFileName"></span>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelProject">Cancel</button>
+                    <button type="submit" class="save-button" id="saveProject">Save Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding a new skill -->
+    <div id="skillModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Add New Skill</h2>
+            <form id="skillForm">
+                <div class="form-group">
+                    <label for="skillName">Skill Name</label>
+                    <input type="text" id="skillName" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-button" id="cancelSkill">Cancel</button>
+                    <button type="submit" class="save-button" id="saveSkill">Add Skill</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.querySelector('.current-year').textContent = new Date().getFullYear();
+            
+            // Make elements editable
+            const editables = document.querySelectorAll('.editable');
+            
+            editables.forEach(element => {
+                // Add edit button on hover
+                element.addEventListener('mouseenter', function() {
+                    if (!this.querySelector('.edit-button') && !this.classList.contains('editable-active')) {
+                        const editBtn = document.createElement('button');
+                        editBtn.className = 'edit-button';
+                        editBtn.textContent = 'Edit';
+                        editBtn.style.position = 'absolute';
+                        editBtn.style.right = '5px';
+                        editBtn.style.top = '5px';
+                        this.style.position = 'relative';
+                        this.appendChild(editBtn);
+                        
+                        editBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            startEditing(element);
+                        });
+                    }
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    const editBtn = this.querySelector('.edit-button');
+                    if (editBtn && !this.classList.contains('editable-active')) {
+                        this.removeChild(editBtn);
+                    }
+                });
+            });
+            
+            function startEditing(element) {
+                element.classList.add('editable-active');
+                
+                // Save original content
+                const originalContent = element.innerHTML;
+                element.setAttribute('data-original', originalContent);
+                
+                // Remove edit button if exists
+                const editBtn = element.querySelector('.edit-button');
+                if (editBtn) element.removeChild(editBtn);
+                
+                // Create text area for editing
+                let editArea;
+                if (element.tagName === 'A') {
+                    // For links, we'll just edit the text
+                    editArea = document.createElement('input');
+                    editArea.type = 'text';
+                    editArea.value = element.textContent.trim();
+                } else if (element.querySelector('ul')) {
+                    // For lists
+                    editArea = document.createElement('textarea');
+                    const listItems = element.querySelectorAll('li');
+                    let textContent = '';
+                    listItems.forEach(item => {
+                        textContent += `- ${item.textContent}\n`;
+                    });
+                    editArea.value = textContent;
+                } else {
+                    // For regular text
+                    editArea = document.createElement
+                }
+
+            }})
+
+// Set secure cookie
+function setSecureCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "; expires=" + date.toUTCString();
+    document.cookie = name + "=" + encodeURIComponent(value) + expires + 
+                     "; path=/; Secure; SameSite=Strict; HttpOnly";
+}
+
+// Get cookie value
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+
+// Delete cookie
+function deleteCookie(name) {
+    document.cookie = name + '=; Max-Age=-99999999; path=/; Secure; SameSite=Strict; HttpOnly';
+}
